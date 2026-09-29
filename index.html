@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thiran Team Connect 2026 — Recognize · Connect · Grow</title>
+  <meta name="description" content="Thiran Team Connect 2026: An internal gathering celebrating Bright Momentum. Saturday, 3 October 2026 at Vel Tech Garden." />
+  <meta name="theme-color" content="#C25E3E" />
+  
+  <!-- Google Fonts: Fraunces (Editorial Serif) & Inter (Clean Sans Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body class="state-pre-event">
+
+  <!-- Ambient Ink-Blot Shapes (Animation #7 & #8: Soft low-opacity ink-blots + parallax) -->
+  <div class="ink-ambient-layer" aria-hidden="true">
+    <div class="ink-blot blot-1"></div>
+    <div class="ink-blot blot-2"></div>
+    <div class="ink-blot blot-3"></div>
+  </div>
+
+  <!-- Intro Screen / Team-First Motion Overlay -->
+  <div id="intro-overlay" class="intro-overlay" aria-label="Welcome intro animation" role="dialog">
+    <button id="skip-intro-btn" class="skip-intro-btn" aria-label="Skip introduction animation">Skip Intro ➔</button>
+    <div class="intro-canvas-container">
+      <div class="avatar-orbit" id="avatar-orbit">
+        <!-- Team Avatars dynamically animated -->
+      </div>
+      <div class="intro-caption">
+        <span class="intro-sub">Many Individuals</span>
+        <span class="intro-arrow">⟶</span>
+        <span class="intro-main">One Team</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- State Simulator Bar for Testing (Pre-Event, Live Day, Post-Event) -->
+  <aside class="event-state-toolbar" aria-label="Event State Preview Control">
+    <div class="toolbar-inner">
+      <div class="state-badge">
+        <span class="pulse-dot"></span>
+        <span class="state-label" id="current-state-text">MODE: <strong>PRE-EVENT (Anticipation)</strong></span>
+      </div>
+      <div class="state-controls">
+        <label for="state-selector" class="sr-only">Simulate Event State</label>
+        <select id="state-selector" class="state-select" title="Switch between event lifecycle modes">
+          <option value="auto">⏳ Real-time Clock (Auto)</option>
+          <option value="pre" selected>State 1: Pre-Event (Anticipation)</option>
+          <option value="live">State 2: Event Day (We're Live! Oct 3)</option>
+          <option value="post">State 3: Post-Event (Impact & Memories)</option>
+        </select>
+        <button id="replay-intro-btn" class="toolbar-btn" title="Replay intro animation">↺ Replay Intro</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Sticky Header Navigation (Colophon / Program Header) -->
+  <header class="site-header" id="site-header">
+    <div class="nav-container">
+      <a href="#hero" class="brand-logo" aria-label="Thiran Team Connect 2026 Home">
+        <div class="logo-mark">
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="18" cy="18" r="16" stroke="#141414" stroke-width="2" />
+            <path d="M12 18L17 23L25 13" stroke="#C25E3E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">THIRAN</span>
+          <span class="brand-event">CONNECT '26</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#agenda" class="nav-link">Agenda</a></li>
+          <li><a href="#team" class="nav-link">Meet Team</a></li>
+          <li><a href="#awards" class="nav-link">Awards</a></li>
+          <li><a href="#cheers" class="nav-link">Cheer Wall</a></li>
+          <li><a href="#ideas" class="nav-link">Idea Box</a></li>
+          <li><a href="#highlights" class="nav-link">Highlights</a></li>
+          <li class="nav-recap-link"><a href="#recap" class="nav-link">Recap Hub</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Action (Dynamic RSVP / Live Status / Recap) -->
+      <div class="nav-actions">
+        <a href="#rsvp" class="btn btn-primary btn-rsvp-nav" id="nav-rsvp-btn">
+          <span>RSVP</span>
+          <span class="nav-counter-pill" id="nav-rsvp-count">0/30</span>
+        </a>
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+      <div class="mobile-menu-inner">
+        <ul class="mobile-nav-links">
+          <li><a href="#hero" class="mobile-link">Home</a></li>
+          <li><a href="#agenda" class="mobile-link">Event Agenda</a></li>
+          <li><a href="#team" class="mobile-link">Meet the Team</a></li>
+          <li><a href="#awards" class="mobile-link">Nominate Teammates</a></li>
+          <li><a href="#cheers" class="mobile-link">Appreciation Wall</a></li>
+          <li><a href="#ideas" class="mobile-link">Idea Box</a></li>
+          <li><a href="#highlights" class="mobile-link">Built Together (Highlights)</a></li>
+          <li class="mobile-recap-link"><a href="#recap" class="mobile-link">Post-Event Recap</a></li>
+          <li><a href="#rsvp" class="mobile-link btn btn-primary mobile-rsvp-btn">Confirm RSVP</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    
+    <!-- 1. HERO SECTION (Editorial Program Cover) -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
+        <!-- Top Pill Tagline (Word-swap loop) -->
+        <div class="hero-pill-badge animate-fade-in">
+          <span class="pill-sparkle">✦</span>
+          <span class="pill-text">Theme: <strong>Bright Momentum</strong></span>
+          <span class="pill-divider">•</span>
+          <span class="pill-motto word-swap-container" id="word-swap-motto" aria-label="Recognize, Connect, Grow">
+            <span class="word-swap-item active">Recognize.</span>
+            <span class="word-swap-item">Connect.</span>
+            <span class="word-swap-item">Grow.</span>
+          </span>
+        </div>
+
+        <!-- Main Title & Subtitle with Single-tone Shimmer -->
+        <h1 class="hero-title animate-slide-up">
+          Thiran Team <span class="highlight-gold">Connect'26</span>
+        </h1>
+
+        <p class="hero-quote animate-slide-up delay-1">
+          &ldquo;We recognize what we have achieved. We connect as one team. We grow toward what comes next.&rdquo;
+        </p>
+
+        <!-- Dynamic State Banner inside Hero -->
+        <div class="hero-status-card animate-slide-up delay-2" id="hero-dynamic-status">
+          <!-- Pre-Event State -->
+          <div class="status-content state-view-pre">
+            <div class="event-meta-strip">
+              <div class="meta-item">
+                <span class="meta-icon">📅</span>
+                <div>
+                  <strong>Saturday, 3 October 2026</strong>
+                  <span>10:00 AM – 4:00 PM (Full-Day Gathering)</span>
+                </div>
+              </div>
+              <div class="meta-divider"></div>
+              <div class="meta-item">
+                <span class="meta-icon">📍</span>
+                <div>
+                  <strong>Vel Tech Garden</strong>
+                  <span>Celebration Arena & Lawn</span>
+                </div>
+              </div>
+              <div class="meta-divider"></div>
+              <div class="meta-item">
+                <span class="meta-icon">👥</span>
+                <div>
+                  <strong>25–35 Attendees</strong>
+                  <span>Core Team, Management & Guests</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Countdown Timer -->
+            <div class="countdown-wrapper" id="countdown-wrapper">
+              <p class="countdown-label">COUNTDOWN TO GATHERING</p>
+              <div class="countdown-grid" role="timer" aria-live="polite">
+                <div class="countdown-card">
+                  <span class="count-num" id="cd-days">00</span>
+                  <span class="count-unit">DAYS</span>
+                </div>
+                <span class="cd-colon">:</span>
+                <div class="countdown-card">
+                  <span class="count-num" id="cd-hours">00</span>
+                  <span class="count-unit">HOURS</span>
+                </div>
+                <span class="cd-colon">:</span>
+                <div class="countdown-card">
+                  <span class="count-num" id="cd-minutes">00</span>
+                  <span class="count-unit">MINUTES</span>
+                </div>
+                <span class="cd-colon">:</span>
+                <div class="countdown-card highlight-card">
+                  <span class="count-num" id="cd-seconds">00</span>
+                  <span class="count-unit">SECONDS</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Event Day State -->
+          <div class="status-content state-view-live" style="display: none;">
+            <div class="live-banner">
+              <div class="live-indicator">
+                <span class="live-pulse"></span>
+                <span class="live-text">WE'RE LIVE AT VEL TECH GARDEN!</span>
+              </div>
+              <h2 class="live-session-now" id="live-active-session-title">Current Session: Team Achievements & Sunset Social</h2>
+              <p class="live-session-next" id="live-next-session-title">Up next at 5:15 PM: Annual Awards & High Tea Banquet</p>
+              <div class="live-quick-stats">
+                <span class="stat-item">Gathering Underway</span>
+                <span class="stat-dot">•</span>
+                <span class="stat-item">Garden Pavilion Open</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Post Event State -->
+          <div class="status-content state-view-post" style="display: none;">
+            <div class="post-banner">
+              <div class="post-spark-icon">🏆</div>
+              <h2 class="post-title">What We Built & Celebrated Together</h2>
+              <p class="post-desc">Thank you for making Thiran Team Connect 2026 an extraordinary milestone of recognition, unity, and shared momentum.</p>
+              <div class="post-cta-strip">
+                <a href="#recap" class="btn btn-primary">Explore Photos & Award Honors</a>
+                <a href="#highlights" class="btn btn-secondary">Review Products Built</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero CTAs -->
+        <div class="hero-actions animate-slide-up delay-3">
+          <a href="#rsvp" class="btn btn-primary btn-lg" id="hero-primary-cta">
+            <span>Confirm RSVP</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a href="#agenda" class="btn btn-secondary btn-lg">
+            <span>Explore Event</span>
+          </a>
+        </div>
+
+        <!-- Live Community Teaser Bar -->
+        <div class="hero-team-social-proof animate-fade-in delay-4">
+          <div class="avatar-stack" id="hero-avatar-stack">
+            <!-- Mini avatars -->
+          </div>
+          <p class="social-proof-text">
+            <strong id="hero-proof-count">0</strong> teammates confirmed so far. We are saving a seat for you!
+          </p>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 2. BUILT TOGETHER / THIRAN HIGHLIGHTS SECTION -->
+    <section class="section-padding highlights-section" id="highlights">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Momentum & Collective Impact</span>
+          <h2 class="section-title">BUILT TOGETHER</h2>
+          <p class="section-description">
+            Over the past 6 months, the Thiran team has designed, shipped, and scaled core platforms empowering education and enterprise technology.
+          </p>
+          <div class="highlight-badge-stat">
+            <span class="stat-pill">🚀 NextStep & LaunchLab</span>
+            <span class="stat-pill">⏱️ 6 Months of Velocity</span>
+            <span class="stat-pill">✨ Craft & Precision</span>
+          </div>
+        </div>
+
+        <div class="highlights-grid">
+          <!-- Product 1: LaunchLab -->
+          <div class="highlight-flip-card" tabindex="0" role="button" aria-label="LaunchLab card. Press or hover to flip for details.">
+            <div class="flip-card-inner">
+              <article class="flip-card-front highlight-card">
+                <div class="highlight-icon-wrapper icon-marigold">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-icon"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09zM12 15l-3-3m0 0l8.5-8.5a2.12 2.12 0 1 1 3 3L12 15zm-3-3l-2 2m5-5l2-2"/></svg>
+                </div>
+                <div class="highlight-content">
+                  <span class="product-tag">Productivity & Incubation</span>
+                  <h3 class="product-name">LaunchLab</h3>
+                  <p class="product-desc">
+                    Enterprise digital execution and rapid prototyping engine. Accelerating client initiatives from concept to production.
+                  </p>
+                  <div class="product-metrics">
+                    <span class="metric"><strong>4x</strong> Faster Deployment</span>
+                    <span class="metric"><strong>99.9%</strong> Uptime</span>
+                  </div>
+                  <div class="flip-hint-badge"><span>Turn Card ↻</span></div>
+                </div>
+              </article>
+              <article class="flip-card-back highlight-card">
+                <span class="product-tag">Inside LaunchLab</span>
+                <h3 class="product-name">The Philosophy</h3>
+                <p class="product-desc back-desc">
+                  &ldquo;Zero-configuration micro-service templates and rapid client sandboxes built by engineers who love precision.&rdquo;
+                </p>
+                <div class="back-footer">
+                  <span class="back-pill">Automated CI/CD</span>
+                  <span class="back-pill">Modular Core</span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Product 2: SmartHub -->
+          <div class="highlight-flip-card" tabindex="0" role="button" aria-label="SmartHub card. Press or hover to flip for details.">
+            <div class="flip-card-inner">
+              <article class="flip-card-front highlight-card">
+                <div class="highlight-icon-wrapper icon-coral">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-icon"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>
+                </div>
+                <div class="highlight-content">
+                  <span class="product-tag">Intelligence & Operations</span>
+                  <h3 class="product-name">SmartHub</h3>
+                  <p class="product-desc">
+                    Intelligent data orchestration and operational analytics unifying attendance, activity metrics, and organizational workflows.
+                  </p>
+                  <div class="product-metrics">
+                    <span class="metric"><strong>12k+</strong> Daily Events</span>
+                    <span class="metric"><strong>100%</strong> Automated</span>
+                  </div>
+                  <div class="flip-hint-badge"><span>Turn Card ↻</span></div>
+                </div>
+              </article>
+              <article class="flip-card-back highlight-card">
+                <span class="product-tag">Inside SmartHub</span>
+                <h3 class="product-name">The Philosophy</h3>
+                <p class="product-desc back-desc">
+                  &ldquo;Transforming operational telemetry into instant clarity across multi-branch education hubs.&rdquo;
+                </p>
+                <div class="back-footer">
+                  <span class="back-pill">Real-time Stream</span>
+                  <span class="back-pill">Unified Metric</span>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <!-- Product 3: IntraSphere -->
+          <div class="highlight-flip-card" tabindex="0" role="button" aria-label="IntraSphere card. Press or hover to flip for details.">
+            <div class="flip-card-inner">
+              <article class="flip-card-front highlight-card">
+                <div class="highlight-icon-wrapper icon-warm">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-icon"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="highlight-content">
+                  <span class="product-tag">Collaboration & Culture</span>
+                  <h3 class="product-name">IntraSphere</h3>
+                  <p class="product-desc">
+                    Internal knowledge base and collaborative workspace enabling cross-functional pods to document, share updates, and mentor.
+                  </p>
+                  <div class="product-metrics">
+                    <span class="metric"><strong>95%</strong> Adoption</span>
+                    <span class="metric"><strong>450+</strong> Docs</span>
+                  </div>
+                  <div class="flip-hint-badge"><span>Turn Card ↻</span></div>
+                </div>
+              </article>
+              <article class="flip-card-back highlight-card">
+                <span class="product-tag">Inside IntraSphere</span>
+                <h3 class="product-name">The Philosophy</h3>
+                <p class="product-desc back-desc">
+                  &ldquo;Eliminating company silos so knowledge moves as fast as our curiosity and teamwork.&rdquo;
+                </p>
+                <div class="back-footer">
+                  <span class="back-pill">Living Wiki</span>
+                  <span class="back-pill">Mentorship Pods</span>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 3. AGENDA TIMELINE SECTION -->
+    <section class="section-padding agenda-section" id="agenda">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Flow of the Gathering</span>
+          <h2 class="section-title">EVENT AGENDA</h2>
+          <p class="section-description">
+            10:00 AM to 4:00 PM — Crafted with intention: structured presentations, open discussion, team challenges, awards ceremony, and celebratory banquet.
+          </p>
+        </div>
+
+        <div class="agenda-timeline" id="agenda-timeline-container">
+          <!-- Item 1 -->
+          <div class="timeline-item" data-session-start="10:00" data-session-end="10:45">
+            <div class="timeline-time-col">
+              <span class="time-badge">10:00 AM</span>
+              <span class="time-duration">45 mins</span>
+            </div>
+            <div class="timeline-marker">
+              <span class="marker-dot"></span>
+              <span class="marker-line"></span>
+            </div>
+            <div class="timeline-card">
+              <div class="session-header">
+                <span class="session-category cat-welcome">Arrival & Welcome</span>
+                <span class="session-icon">☕</span>
+              </div>
+              <h3 class="session-title">Arrival, Welcome Coolers & Swag Kits</h3>
+              <p class="session-desc">Welcome drink reception, personalized badges & swag bags, artisan breakfast snacks. Mingle with the whole crew as everyone arrives.</p>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div class="timeline-item" data-session-start="10:45" data-session-end="11:30">
+            <div class="timeline-time-col">
+              <span class="time-badge">10:45 AM</span>
+              <span class="time-duration">45 mins</span>
+            </div>
+            <div class="timeline-marker">
+              <span class="marker-dot"></span>
+              <span class="marker-line"></span>
+            </div>
+            <div class="timeline-card">
+              <div class="session-header">
+                <span class="session-category cat-keynote">Opening</span>
+                <span class="session-icon">🌅</span>
+              </div>
+              <h3 class="session-title">Kickoff: Celebrating Bright Momentum</h3>
+              <p class="session-desc">Setting the tone. Why this gathering belongs to everyone who gave their heart to building Thiran.</p>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div class="timeline-item" data-session-start="11:30" data-session-end="12:30">
+            <div class="timeline-time-col">
+              <span class="time-badge">11:30 AM</span>
+              <span class="time-duration">60 mins</span>
+            </div>
+            <div class="timeline-marker">
+              <span class="marker-dot"></span>
+              <span class="marker-line"></span>
+            </div>
+            <div class="timeline-card">
+              <div class="session-header">
+                <span class="session-category cat-keynote">Founder Address</span>
+                <span class="session-icon">🎙️</span>
+              </div>
+              <h3 class="session-title">Founder Reflections & Roadmap Reveal</h3>
+              <p class="session-desc">Heartfelt journey reflections, celebrating our early wins, lessons learned, and the exciting roadmap for our next chapter.</p>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div class="timeline-item" data-session-start="12:30" data-session-end="13:30">
+            <div class="timeline-time-col">
+              <span class="time-badge">12:30 PM</span>
+              <span class="time-duration">60 mins</span>
+            </div>
+            <div class="timeline-marker">
+              <span class="marker-dot"></span>
+              <span class="marker-line"></span>
+            </div>
+            <div class="timeline-card">
+              <div class="session-header">
+                <span class="session-category cat-welcome">Lunch & Social</span>
+                <span class="session-icon">🍽️</span>
+              </div>
+              <h3 class="session-title">Networking Lunch & Lawn Connections</h3>
+              <p class="session-desc">Gourmet buffet lunch across garden pavilions, informal pod conversations, and candid team photography.</p>
+            </div>
+          </div>
+
+          <!-- Item 5 -->
+          <div class="timeline-item" data-session-start="13:30" data-session-end="14:30">
+            <div class="timeline-time-col">
+              <span class="time-badge">1:30 PM</span>
+              <span class="time-duration">60 mins</span>
+            </div>
+            <div class="timeline-marker">
+              <span class="marker-dot"></span>
+              <span class="marker-line"></span>
+            </div>
+            <div class="timeline-card">
+              <div class="session-header">
+                <span class="session-category cat-activity">Interactive</span>
+                <span class="session-icon">🎯</span>
+              </div>
+              <h3 class="session-title">Team Momentum Lawn Challenge</h3>
+              <p class="session-desc">Thoughtful, collaborative outdoor team activities and problem-solving on Vel Tech Garden Lawn.</p>
+            </div>
+          </div>
+
+          <!-- Item 6: Awards & Celebration -->
+          <div class="timeline-item" data-session-start="14:30" data-session-end="15:30">
+            <div class="timeline-time-col">
+              <span class="time-badge">2:30 PM</span>
+              <span class="time-duration">60 mins</span>
+            </div>
+            <div class="timeline-marker">
+              <span class="marker-dot"></span>
+              <span class="marker-line"></span>
+            </div>
+            <div class="timeline-card">
+              <div class="session-header">
+                <span class="session-category cat-awards">Awards Ceremony</span>
+                <span class="session-icon">🏆</span>
+              </div>
+              <h3 class="session-title">Thiran Annual Awards & High Tea Banquet</h3>
+              <p class="session-desc">Honoring Excellence across Performance, Teamwork, Growth, and Special categories with trophies, citations, and high tea feast.</p>
+            </div>
+          </div>
+
+          <!-- Item 7: Closing & Group Portrait -->
+          <div class="timeline-item" data-session-start="15:30" data-session-end="16:00">
+            <div class="timeline-time-col">
+              <span class="time-badge">3:30 PM</span>
+              <span class="time-duration">30 mins</span>
+            </div>
+            <div class="timeline-marker">
+              <span class="marker-dot"></span>
+              <span class="marker-line"></span>
+            </div>
+            <div class="timeline-card">
+              <div class="session-header">
+                <span class="session-category cat-closing">Closing</span>
+                <span class="session-icon">📸</span>
+              </div>
+              <h3 class="session-title">Official Team Portrait & Celebration Toast</h3>
+              <p class="session-desc">Group photography session at the garden pavilion, final team cheers, and closing celebration hampers.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 4. MEET THE TEAM SECTION (Official Website Team) -->
+    <section class="section-padding team-section" id="team">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">People Before Hierarchy</span>
+          <h2 class="section-title">THE PEOPLE BEHIND THIRAN</h2>
+          <p class="section-description">
+            Dreamers, builders, and launchers — united by one mission.
+          </p>
+        </div>
+
+        <!-- Filter / Search bar -->
+        <div class="team-filter-bar">
+          <div class="filter-pills" id="team-dept-filter" role="tablist">
+            <button class="filter-pill active" data-filter="all" role="tab" aria-selected="true">All Team Members</button>
+            <button class="filter-pill" data-filter="Leadership" role="tab" aria-selected="false">Leadership</button>
+            <button class="filter-pill" data-filter="Engineering" role="tab" aria-selected="false">Engineering</button>
+            <button class="filter-pill" data-filter="Operations" role="tab" aria-selected="false">Operations & Growth</button>
+            <button class="filter-pill" data-filter="Design" role="tab" aria-selected="false">Product & Design</button>
+          </div>
+          <div class="team-search-box">
+            <input type="text" id="team-search-input" placeholder="Search by name, role, or craft..." aria-label="Search team members" />
+          </div>
+        </div>
+
+        <!-- Team Grid -->
+        <div class="team-grid" id="team-grid-container">
+          <!-- Dynamically populated from official team list -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 5. ROADMAP TEASER / THE NEXT CHAPTER (Locked/Blurred Pre-Event -> Unlocked Post-Event) -->
+    <section class="section-padding roadmap-teaser-section" id="roadmap-teaser">
+      <div class="container">
+        <div class="teaser-wrapper" id="roadmap-card-container">
+          
+          <!-- Locked Overlay for Pre-Event -->
+          <div class="locked-overlay" id="roadmap-locked-overlay">
+            <div class="lock-icon-container">
+              <div class="lock-pulse-ring"></div>
+              <div class="lock-badge">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+              </div>
+            </div>
+            <span class="teaser-eyebrow">EXCLUSIVE STRATEGIC REVEAL</span>
+            <h2 class="teaser-title">THE NEXT CHAPTER</h2>
+            <p class="teaser-message">
+              Revealed live at Thiran Team Connect 2026 on <strong>Saturday, 3 October</strong>.
+            </p>
+            <div class="teaser-countdown-hint">
+              <span>Unlocks live during session 3 at 4:00 PM</span>
+            </div>
+            <button class="btn btn-outline btn-unlock-preview" id="toggle-roadmap-preview-btn" title="Click to test unlock behavior">
+              🔓 Preview Unlocked State
+            </button>
+          </div>
+
+          <!-- Blurred / Underlying Roadmap Content -->
+          <div class="blurred-content-preview" id="roadmap-preview-content">
+            <div class="roadmap-grid">
+              <div class="roadmap-item">
+                <span class="r-q">Q4 2026</span>
+                <h4>NextStep AI Engine & Expansion</h4>
+                <p>Scaling personalized student career guidance algorithms and institutional adoption.</p>
+              </div>
+              <div class="roadmap-item">
+                <span class="r-q">Q1 2027</span>
+                <h4>SmartHub 2.0 Real-time Orchestration</h4>
+                <p>Unified enterprise analytics standardizing multi-branch attendance and telemetry.</p>
+              </div>
+              <div class="roadmap-item">
+                <span class="r-q">Q2 2027</span>
+                <h4>LaunchLab Autonomous Incubator</h4>
+                <p>Zero-configuration micro-service templates and client sandbox environments.</p>
+              </div>
+              <div class="roadmap-item">
+                <span class="r-q">Continuous</span>
+                <h4>Thiran Learning & Mentorship Fellowship</h4>
+                <p>Quarterly hackdays, learning sponsorships, and leadership fast-track rotations.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 6. RSVP / REGISTRATION SECTION -->
+    <section class="section-padding rsvp-section" id="rsvp">
+      <div class="container">
+        <div class="rsvp-card-wrapper">
+          <div class="rsvp-left">
+            <span class="section-subtitle">Reserve Your Spot</span>
+            <h2 class="section-title">JOIN THE GATHERING</h2>
+            <p class="rsvp-desc">
+              Thiran Team Connect 2026 is designed for each and every member of our core family. Confirm your presence so we can customize your welcome kit, seating pod, and high-tea feast.
+            </p>
+
+            <!-- Live Attendance Counter -->
+            <div class="live-attendance-box">
+              <div class="counter-header">
+                <span class="counter-pulse"></span>
+                <span class="counter-title">LIVE ATTENDANCE STATUS</span>
+              </div>
+              <div class="counter-display">
+                <span class="confirmed-num" id="attendee-confirmed-count">0</span>
+                <span class="confirmed-slash">/</span>
+                <span class="total-num">30</span>
+                <span class="confirmed-text">confirmed</span>
+              </div>
+              <!-- Progress Bar -->
+              <div class="progress-track" aria-hidden="true">
+                <div class="progress-fill" id="attendee-progress-fill" style="width: 0%;"></div>
+              </div>
+              <p class="attendance-subtext" id="attendance-subtext">30 spots open. Be the first to confirm your RSVP!</p>
+            </div>
+
+            <div class="event-brief-bullets">
+              <div class="brief-bullet">
+                <span class="bullet-icon">📍</span>
+                <span><strong>Venue:</strong> Vel Tech Garden Lawn & Pavilion</span>
+              </div>
+              <div class="brief-bullet">
+                <span class="bullet-icon">👔</span>
+                <span><strong>Dress Code:</strong> Smart Casual</span>
+              </div>
+              <div class="brief-bullet">
+                <span class="bullet-icon">🎁</span>
+                <span><strong>Inclusions:</strong> Welcome Kit, Sunset High Tea, Awards & Swag</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="rsvp-right">
+            <form id="rsvp-form" class="rsvp-form" novalidate>
+              <h3 class="form-title">Confirm Attendance</h3>
+              <p class="form-subtitle">Quick 10-second confirmation for Thiran team members & guests.</p>
+
+              <div class="form-group">
+                <label for="rsvp-name">Full Name <span class="req">*</span></label>
+                <input type="text" id="rsvp-name" name="name" placeholder="e.g., G S Varshith" required />
+                <span class="form-error" id="name-error">Please enter your name.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="rsvp-dept">Department / Pod <span class="req">*</span></label>
+                <select id="rsvp-dept" name="department" required>
+                  <option value="">Select your department</option>
+                  <option value="Leadership">Leadership</option>
+                  <option value="Engineering">Engineering</option>
+                  <option value="Operations & Growth">Operations & Growth</option>
+                  <option value="Product & Design">Product & Design</option>
+                  <option value="Invited Guest">Invited Guest</option>
+                </select>
+                <span class="form-error" id="dept-error">Please choose your department.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="rsvp-diet">Dietary Preference</label>
+                <select id="rsvp-diet" name="diet">
+                  <option value="Vegetarian">Vegetarian Delight</option>
+                  <option value="Non-Vegetarian">Non-Vegetarian Feast</option>
+                  <option value="Vegan">Vegan / Special</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="rsvp-note">Any note or suggestions? (Optional)</label>
+                <input type="text" id="rsvp-note" name="note" placeholder="e.g., Looking forward to connecting in person!" />
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-rsvp-submit" id="rsvp-submit-btn">
+                <span>Confirm RSVP ✓</span>
+              </button>
+
+              <div class="rsvp-success-alert stamp-morph-box" id="rsvp-success-alert" style="display: none;">
+                <div class="ink-stamp-circle">
+                  <span class="stamp-word">CONFIRMED</span>
+                  <span class="stamp-date">OCT 03 · 2026</span>
+                </div>
+                <div class="alert-text">
+                  <strong>Spot Reserved on Official Roster</strong>
+                  <p>Welcome aboard for Saturday, 3 October. Your attendance has been officially stamped.</p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 7. AWARD NOMINATIONS SECTION -->
+    <section class="section-padding awards-section" id="awards">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Celebrate Extraordinary Contributions</span>
+          <h2 class="section-title">THIRAN ANNUAL AWARDS</h2>
+          <p class="section-description">
+            Recognize the peers who inspired you, held the line during critical releases, and elevated team spirit.
+          </p>
+        </div>
+
+        <div class="nomination-wrapper">
+          <!-- Award Categories Selector -->
+          <div class="award-categories-grid" id="award-categories-selector" role="radiogroup" aria-label="Award Categories">
+            <!-- Category 1 -->
+            <div class="award-cat-card active" data-category="Performance" role="radio" aria-checked="true" tabindex="0">
+              <div class="cat-badge">Performance</div>
+              <h3 class="cat-name">The Velocity & Craft Award</h3>
+              <p class="cat-desc">For relentless engineering quality, flawless execution, and setting the benchmark in technical excellence.</p>
+            </div>
+
+            <!-- Category 2 -->
+            <div class="award-cat-card" data-category="Teamwork" role="radio" aria-checked="false" tabindex="0">
+              <div class="cat-badge">Teamwork</div>
+              <h3 class="cat-name">The Catalyst & Glue Award</h3>
+              <p class="cat-desc">For championing unselfish collaboration, lifting others up, and making work joyful for everyone around them.</p>
+            </div>
+
+            <!-- Category 3 -->
+            <div class="award-cat-card" data-category="Growth" role="radio" aria-checked="false" tabindex="0">
+              <div class="cat-badge">Growth</div>
+              <h3 class="cat-name">The Leap & Innovation Award</h3>
+              <p class="cat-desc">For extraordinary personal learning, embracing new domains boldly, and driving creative problem-solving.</p>
+            </div>
+
+            <!-- Category 4 -->
+            <div class="award-cat-card" data-category="Special" role="radio" aria-checked="false" tabindex="0">
+              <div class="cat-badge">Special</div>
+              <h3 class="cat-name">The Unsung Hero Award</h3>
+              <p class="cat-desc">For quiet mastery behind the scenes, operational reliability, and dependable impact when it mattered most.</p>
+            </div>
+          </div>
+
+          <!-- Nomination Form -->
+          <div class="nomination-form-card">
+            <form id="nomination-form" class="nomination-form" novalidate>
+              <div class="nom-form-header">
+                <span class="selected-cat-pill" id="form-selected-cat-display">Category: Performance (The Velocity & Craft Award)</span>
+                <h4>Submit Your Nomination</h4>
+              </div>
+
+              <input type="hidden" id="nom-category-input" name="category" value="Performance" />
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="nom-nominator">Your Name (Nominator) <span class="req">*</span></label>
+                  <input type="text" id="nom-nominator" placeholder="Your full name" required />
+                </div>
+                <div class="form-group">
+                  <label for="nom-nominee">Nominee (Teammate to Honor) <span class="req">*</span></label>
+                  <select id="nom-nominee" required>
+                    <option value="">Choose a team member</option>
+                    <!-- Populated dynamically from official team members -->
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="nom-reason">Why do they deserve this award? (Specific moments or impact) <span class="req">*</span></label>
+                <textarea id="nom-reason" rows="3" placeholder="Tell us how they made a tangible difference or supported you..." required></textarea>
+              </div>
+
+              <div class="form-actions-inline">
+                <button type="submit" class="btn btn-primary" id="submit-nomination-btn">
+                  <span>Submit Nomination ✦</span>
+                </button>
+                <span class="nom-count-badge" id="total-nominations-count">0 Nominations Received</span>
+              </div>
+
+              <div class="nom-success-msg stamp-morph-box" id="nom-success-msg" style="display: none;">
+                <div class="ink-stamp-circle mini-stamp">
+                  <span class="stamp-word">RECORDED</span>
+                  <span class="stamp-date">✦ THIRAN</span>
+                </div>
+                <div class="alert-text">
+                  <strong>Nomination Officially Stamped</strong>
+                  <p>Your tribute has been recorded for the 2026 honors committee.</p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 8. CHEER FOR A TEAMMATE (Appreciation Wall) -->
+    <section class="section-padding cheers-section" id="cheers">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Real Words · Real Gratitude</span>
+          <h2 class="section-title">CHEER FOR A TEAMMATE</h2>
+          <p class="section-description">
+            Send a spontaneous note of thanks or celebrate a shared victory. Dropped like handwritten cards on the team board.
+          </p>
+        </div>
+
+        <div class="cheer-composer-card">
+          <form id="cheer-form" class="cheer-form">
+            <div class="cheer-inputs-row">
+              <div class="form-group c-group-name">
+                <label for="cheer-author">From</label>
+                <input type="text" id="cheer-author" placeholder="Your Name" required />
+              </div>
+              <div class="form-group c-group-to">
+                <label for="cheer-recipient">To</label>
+                <input type="text" id="cheer-recipient" placeholder="Teammate / Entire Team" required />
+              </div>
+              <div class="form-group c-group-tag">
+                <label for="cheer-tag">Vibe</label>
+                <select id="cheer-tag">
+                  <option value="Gratitude">Gratitude</option>
+                  <option value="Rockstar">Craftsmanship</option>
+                  <option value="Mentor">Inspiration</option>
+                  <option value="Team Spirit">Team Spirit</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="cheer-message">Your Message</label>
+              <textarea id="cheer-message" rows="2" placeholder="e.g., Thank you for always helping out on late release nights! Proud of what we built together." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-post-cheer" id="post-cheer-btn">
+              <span>Post on Cheer Wall ✦</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Live Cheer Wall Grid -->
+        <div class="cheer-wall-grid" id="cheer-wall-grid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 9. IDEA BOX SECTION -->
+    <section class="section-padding ideas-section" id="ideas">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Open Dialogue & Innovation</span>
+          <h2 class="section-title">YOUR IDEA MATTERS</h2>
+          <p class="section-description">
+            Share suggestions, product concepts, culture improvements, or questions you’d like addressed during our gathering.
+          </p>
+        </div>
+
+        <div class="idea-box-container">
+          <div class="idea-submit-column">
+            <form id="idea-form" class="idea-form">
+              <div class="form-group">
+                <label for="idea-title">Idea Summary / Headline <span class="req">*</span></label>
+                <input type="text" id="idea-title" placeholder="e.g., Automated staging review environments for PRs" required />
+              </div>
+
+              <div class="form-group">
+                <label for="idea-category">Focus Area</label>
+                <select id="idea-category">
+                  <option value="Product & Tech">Product & Technology</option>
+                  <option value="Culture & Wellness">Team Culture & Workplace</option>
+                  <option value="Process & Velocity">Workflow & Efficiency</option>
+                  <option value="Customer Impact">Client Delight</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="idea-body">Details & Proposed Solution <span class="req">*</span></label>
+                <textarea id="idea-body" rows="4" placeholder="Describe the idea, what problem it solves, and how we could kick it off..." required></textarea>
+              </div>
+
+              <div class="form-group checkbox-group">
+                <label class="custom-checkbox">
+                  <input type="checkbox" id="idea-anon" />
+                  <span class="checkmark"></span>
+                  <span>Submit anonymously</span>
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-submit-idea" id="submit-idea-btn">
+                <span>Submit Idea 💡</span>
+              </button>
+
+              <div class="idea-success-alert stamp-morph-box" id="idea-success-alert" style="display: none;">
+                <div class="ink-stamp-circle mini-stamp">
+                  <span class="stamp-word">RECEIVED</span>
+                  <span class="stamp-date">IDEA BOX</span>
+                </div>
+                <div class="alert-text">
+                  <strong>Suggestion Stamped</strong>
+                  <p>Added to the community agenda discussion board.</p>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="idea-feed-column">
+            <div class="idea-feed-header">
+              <h3>Community Ideas Submitted</h3>
+              <span class="idea-badge" id="idea-count-badge">0 Ideas</span>
+            </div>
+            <div class="idea-cards-list" id="idea-cards-list">
+              <!-- Dynamically populated from team submissions -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 10. POST-EVENT RECAP (STATE 3 ACTIVE/PREVIEW) -->
+    <section class="section-padding recap-section" id="recap">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-subtitle">Memories & Collective Impact</span>
+          <h2 class="section-title">THIRAN TEAM CONNECT 2026 — RECAP</h2>
+          <p class="section-description">
+            Archiving the milestones, the award honors, and the authentic moments that shaped our gathering.
+          </p>
+        </div>
+
+        <!-- 10.1 Photo Gallery -->
+        <div class="recap-block">
+          <div class="block-header">
+            <h3>Event Photo Gallery</h3>
+            <p>Moments from Vel Tech Garden</p>
+          </div>
+          <div class="gallery-grid" id="recap-photo-gallery">
+            <!-- Rendered with rich visual graphics -->
+          </div>
+        </div>
+
+        <!-- 10.2 Award Winners Spotlight -->
+        <div class="recap-block">
+          <div class="block-header">
+            <h3>2026 Award Laureates</h3>
+            <p>Honored for excellence, collaboration, and growth</p>
+          </div>
+          <div class="winners-grid" id="award-winners-grid">
+            <!-- 4 Award categories showing "Will be Revealing Soon!" -->
+          </div>
+        </div>
+
+        <!-- 10.3 Team Testimonials -->
+        <div class="recap-block">
+          <div class="block-header">
+            <h3>Voices of Thiran</h3>
+            <p>Reflections from our team family</p>
+          </div>
+          <div class="testimonials-grid">
+            <div class="testimonial-card">
+              <div class="quote-mark">“</div>
+              <p class="quote-text">Seeing the whole team in person at Vel Tech Garden as the sun set over the lawn made me so proud of what we have built and what lies ahead.</p>
+              <div class="quote-author">
+                <strong>G S Varshith</strong>
+                <span>Founder & CEO</span>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <div class="quote-mark">“</div>
+              <p class="quote-text">Execution is the game. The energy tonight was genuinely uplifting — people who respect each other's craft and share a relentless hunger to grow.</p>
+              <div class="quote-author">
+                <strong>Dharshan S</strong>
+                <span>Co-Founder & COO</span>
+              </div>
+            </div>
+            <div class="testimonial-card">
+              <div class="quote-mark">“</div>
+              <p class="quote-text">Design is how it works. The lawn challenges and sunset gathering brought everyone together. We left with genuine excitement for our next chapter.</p>
+              <div class="quote-author">
+                <strong>Mukunthan S</strong>
+                <span>Tech Lead, Event Coordinator</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Editorial Colophon Footer with Support thiranprivateltd@gmail.com -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <div class="logo-mark">
+              <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28">
+                <circle cx="18" cy="18" r="16" stroke="#FFFFFF" stroke-width="1.5" />
+                <path d="M12 18L17 23L25 13" stroke="#C25E3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="brand-name">THIRAN</span>
+          </div>
+          <p class="footer-tagline">Recognize · Connect · Grow</p>
+          <p class="footer-sub">Thiran Private Ltd. &copy; 2026. Published for our annual internal team gathering.</p>
+        </div>
+
+        <div class="footer-links-group">
+          <h4>Event Navigation</h4>
+          <ul>
+            <li><a href="#hero">Top / Cover</a></li>
+            <li><a href="#agenda">Agenda & Sessions</a></li>
+            <li><a href="#team">Team Directory</a></li>
+            <li><a href="#rsvp">RSVP Confirmation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-group">
+          <h4>Participation</h4>
+          <ul>
+            <li><a href="#awards">Nominate Teammates</a></li>
+            <li><a href="#cheers">Appreciation Wall</a></li>
+            <li><a href="#ideas">Submit an Idea</a></li>
+            <li><a href="#highlights">Built Together</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links-group">
+          <h4>Venue & Logistics</h4>
+          <p class="venue-detail">
+            <strong>Vel Tech Garden</strong><br />
+            Saturday, 3 October 2026<br />
+            10:00 AM – 4:00 PM IST<br />
+            <span class="contact-pill">Support: <a href="mailto:thiranprivateltd@gmail.com" style="color:#FFFFFF; text-decoration:underline;">thiranprivateltd@gmail.com</a></span>
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-motto">
+          <span>Bright Momentum 2026</span>
+          <span class="sep">•</span>
+          <span>Thiran Private Ltd.</span>
+          <span class="sep">•</span>
+          <span>Archival Program Edition</span>
+        </div>
+        <a href="#hero" class="back-to-top" aria-label="Back to top">
+          <span>Back to Top ↑</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/state-manager.js"></script>
+  <script src="js/components.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
