@@ -1,0 +1,705 @@
+/* ==========================================================================
+   PAPER & INK ANIMATIONS (All 14 Specified Restrained Animations)
+   Single Accent: Terracotta (#C25E3E) used consistently across every effect.
+   Performance Optimized: GPU-light (transforms, opacities), lazy-observer triggered.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Sunrise / Paper Wipe Intro (Cream-to-paper-white wipe sweeping up)
+   -------------------------------------------------------------------------- */
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  background: #F7F5F0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+  transition: opacity 0.7s cubic-bezier(0.25, 1, 0.5, 1), visibility 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.intro-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #FFFFFF 0%, #F7F5F0 70%, #EFECE4 100%);
+  transform: translateY(100%);
+  animation: paperWipeUp 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  z-index: 1;
+}
+
+@keyframes paperWipeUp {
+  0% { transform: translateY(100%); }
+  100% { transform: translateY(-100%); }
+}
+
+.intro-overlay.dismissed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.skip-intro-btn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--color-text-main);
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-fast);
+  z-index: 10001;
+}
+
+.skip-intro-btn:hover {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.intro-canvas-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 380px;
+  z-index: 2;
+}
+
+.avatar-orbit {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-avatar-dot {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--color-text-main);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-family: var(--font-body);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(20, 20, 20, 0.12);
+  border: 2px solid #FFFFFF;
+  opacity: 0;
+  transform: scale(0.2);
+  transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease, left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), top 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.intro-avatar-dot.converge {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.intro-caption {
+  margin-top: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-style: italic;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.6s ease;
+}
+
+.intro-caption.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.intro-sub {
+  color: var(--color-text-muted);
+}
+
+.intro-arrow {
+  color: var(--color-primary);
+}
+
+.intro-main {
+  color: var(--color-primary);
+}
+
+
+/* --------------------------------------------------------------------------
+   2. Scroll-Triggered Section Reveals (Restrained vertical shift + fade, no bounce)
+   -------------------------------------------------------------------------- */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-fade-in {
+  animation: quietFadeIn 0.6s ease forwards;
+}
+
+.animate-slide-up {
+  opacity: 0;
+  transform: translateY(12px);
+  animation: quietSlideUp 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.12s; }
+.delay-2 { animation-delay: 0.22s; }
+.delay-3 { animation-delay: 0.32s; }
+.delay-4 { animation-delay: 0.42s; }
+
+@keyframes quietFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes quietSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   3. Countdown Ticking Animation (Date/page stamp digit flip roll)
+   -------------------------------------------------------------------------- */
+.count-num {
+  display: inline-block;
+  perspective: 400px;
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.count-num.digit-flip {
+  animation: dateStampFlip 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes dateStampFlip {
+  0% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+  49% {
+    transform: rotateX(-75deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: rotateX(75deg);
+    opacity: 0.3;
+  }
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   4 & 13. Ink-Stamp Style Confirmation & Success State Morph
+   -------------------------------------------------------------------------- */
+.stamp-morph-box {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: #FFFDF9;
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem 1.5rem;
+  margin-top: 1.25rem;
+  animation: stampPressDown 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.ink-stamp-circle {
+  width: 64px;
+  height: 64px;
+  border: 2px dashed var(--color-primary);
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-12deg);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  flex-shrink: 0;
+  box-shadow: inset 0 0 0 1px rgba(194, 94, 62, 0.2);
+}
+
+.ink-stamp-circle.mini-stamp {
+  width: 52px;
+  height: 52px;
+}
+
+.stamp-word {
+  font-family: var(--font-body);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  line-height: 1.1;
+}
+
+.stamp-date {
+  font-size: 0.54rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+}
+
+@keyframes stampPressDown {
+  0% {
+    opacity: 0;
+    transform: scale(1.35) rotate(-6deg);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(0.96) rotate(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   5. Gradient Text Shimmer (Hero headline single terracotta sweep on load)
+   -------------------------------------------------------------------------- */
+.headline-shimmer {
+  background: linear-gradient(
+    90deg,
+    #141414 0%,
+    #141414 35%,
+    #C25E3E 50%,
+    #141414 65%,
+    #141414 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: singleInkShimmer 2.2s ease 0.5s 1 normal forwards;
+}
+
+@keyframes singleInkShimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   6. Word-Swap Loop ("Recognize." -> "Connect." -> "Grow." stamp typewriter)
+   -------------------------------------------------------------------------- */
+.word-swap-container {
+  display: inline-grid;
+  vertical-align: middle;
+  height: 1.4em;
+  position: relative;
+  overflow: hidden;
+  text-align: left;
+}
+
+.word-swap-item {
+  grid-area: 1 / 1;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--color-primary);
+  opacity: 0;
+  transform: translateY(100%);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.word-swap-item.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.word-swap-item.exit {
+  opacity: 0;
+  transform: translateY(-100%);
+}
+
+
+/* --------------------------------------------------------------------------
+   7 & 8. Floating Soft Ink Shapes & Subtle Parallax (Low-opacity, GPU-light)
+   -------------------------------------------------------------------------- */
+.ink-ambient-layer {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.ink-blot {
+  position: absolute;
+  border-radius: 60% 40% 70% 30% / 40% 50% 60% 50%;
+  filter: blur(45px);
+  opacity: 0.045;
+  will-change: transform;
+}
+
+.blot-1 {
+  width: 480px;
+  height: 480px;
+  background: var(--color-primary);
+  top: 8%;
+  left: -8%;
+  animation: inkDrift1 26s infinite alternate ease-in-out;
+}
+
+.blot-2 {
+  width: 520px;
+  height: 520px;
+  background: #141414;
+  top: 45%;
+  right: -10%;
+  animation: inkDrift2 32s infinite alternate ease-in-out;
+}
+
+.blot-3 {
+  width: 420px;
+  height: 420px;
+  background: var(--color-primary);
+  bottom: 5%;
+  left: 15%;
+  animation: inkDrift3 28s infinite alternate ease-in-out;
+}
+
+@keyframes inkDrift1 {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  100% { transform: translate3d(40px, 60px, 0) rotate(25deg); }
+}
+
+@keyframes inkDrift2 {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  100% { transform: translate3d(-50px, -40px, 0) rotate(-20deg); }
+}
+
+@keyframes inkDrift3 {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  100% { transform: translate3d(30px, -50px, 0) rotate(15deg); }
+}
+
+
+/* --------------------------------------------------------------------------
+   9. Timeline Draw-In (Agenda pen-stroke line animation)
+   -------------------------------------------------------------------------- */
+.agenda-timeline::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 109px; /* Aligns with marker dots on desktop */
+  width: 2px;
+  background: var(--color-border);
+  z-index: 1;
+}
+
+.agenda-timeline-progress {
+  position: absolute;
+  top: 12px;
+  left: 109px;
+  width: 2px;
+  background: var(--color-primary);
+  z-index: 2;
+  height: 0%;
+  transition: height 0.25s ease-out;
+  transform-origin: top center;
+}
+
+.timeline-item {
+  opacity: 0.35;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 3;
+}
+
+.timeline-item.timeline-reached {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.timeline-item.timeline-reached .marker-dot {
+  background: var(--color-primary);
+  border-color: #FFFFFF;
+  box-shadow: 0 0 0 3px rgba(194, 94, 62, 0.25);
+}
+
+@media (max-width: 640px) {
+  .agenda-timeline::before,
+  .agenda-timeline-progress {
+    left: 19px;
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   10. Highlight Card Flip (LaunchLab/SmartHub/IntraSphere page turning)
+   -------------------------------------------------------------------------- */
+.highlight-flip-card {
+  perspective: 1000px;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  outline: none;
+}
+
+.highlight-flip-card:focus-visible {
+  box-shadow: 0 0 0 2px var(--color-primary);
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 290px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.highlight-flip-card:hover .flip-card-inner,
+.highlight-flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.flip-card-front {
+  z-index: 2;
+  transform: rotateY(0deg);
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+  background: #141414 !important;
+  color: #F7F5F0;
+  border: 1px solid #2B2B28 !important;
+  box-shadow: var(--shadow-md);
+  padding: 2rem 1.75rem;
+}
+
+.flip-card-back .product-tag {
+  color: var(--color-primary);
+}
+
+.flip-card-back .product-name {
+  color: #FFFFFF;
+}
+
+.flip-card-back .product-desc {
+  color: #D6D3C9;
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.flip-hint-badge {
+  margin-top: 1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.back-footer {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.back-pill {
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  color: #FFFFFF;
+}
+
+
+/* --------------------------------------------------------------------------
+   11. Wish Wall Float-In (Handwritten note drop with slight natural tilt)
+   -------------------------------------------------------------------------- */
+.cheer-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 1.35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 6px rgba(20, 20, 20, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+
+.cheer-card::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 8px;
+  background: rgba(194, 94, 62, 0.35); /* Single terracotta archival tape strip */
+  border-radius: 1px;
+}
+
+.cheer-card:nth-child(odd) {
+  transform: rotate(-1deg);
+}
+
+.cheer-card:nth-child(even) {
+  transform: rotate(1.2deg);
+}
+
+.cheer-card:nth-child(3n) {
+  transform: rotate(-0.5deg);
+}
+
+.cheer-card:hover {
+  transform: translateY(-4px) rotate(0deg);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-hover);
+}
+
+.cheer-card.newly-dropped {
+  animation: cardDropIn 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes cardDropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.9) rotate(4deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(-1deg);
+  }
+}
+
+
+/* --------------------------------------------------------------------------
+   12. Button Magnetic Hover (Subtle, restrained cursor attraction)
+   -------------------------------------------------------------------------- */
+.btn {
+  position: relative;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+  will-change: transform;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+
+/* --------------------------------------------------------------------------
+   14. Form Field Glow-Focus (Ink line underline drawn under field)
+   -------------------------------------------------------------------------- */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-bg);
+  color: var(--color-text-main);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  background: #FFFFFF;
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 0 0 var(--color-primary), 0 0 0 1px var(--color-primary);
+}
+
+
+/* --------------------------------------------------------------------------
+   15. Accessibility: prefers-reduced-motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .intro-overlay,
+  .intro-overlay::before,
+  .ink-ambient-layer {
+    display: none !important;
+  }
+
+  .reveal-on-scroll,
+  .timeline-item,
+  .animate-fade-in,
+  .animate-slide-up {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .headline-shimmer {
+    background: none !important;
+    -webkit-text-fill-color: #141414 !important;
+  }
+
+  .flip-card-inner {
+    transform: none !important;
+  }
+}
